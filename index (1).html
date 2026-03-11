@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NIEUW EI — Strategie, Marketing & Branding</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --yolk: #F5A623;
+      --yolk-deep: #E8890A;
+      --cream: #FDF6EC;
+      --shell: #F0E6D3;
+      --dark: #1A1410;
+      --mid: #5C4A32;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      background: #ffffff;
+      color: var(--dark);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.4;
+    }
+
+    /* INTRO */
+    #intro {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      background: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    #egg-container {
+      position: relative;
+      width: 260px;
+      cursor: pointer;
+      opacity: 0;
+      transform: scale(0.6);
+      animation: eggAppear 1.2s cubic-bezier(0.34,1.56,0.64,1) 0.5s forwards;
+    }
+    #egg-img {
+      width: 100%;
+      filter: drop-shadow(0 30px 60px rgba(245,166,35,0.4));
+      display: block;
+    }
+    #egg-container:hover #egg-img {
+      filter: drop-shadow(0 40px 80px rgba(245,166,35,0.65));
+    }
+    .click-hint {
+      position: absolute;
+      bottom: -44px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--mid);
+      opacity: 0;
+      animation: fadeHint 0.8s ease 2.2s forwards;
+      white-space: nowrap;
+    }
+    .click-hint::after {
+      content: '';
+      display: block;
+      width: 1px;
+      height: 18px;
+      background: var(--yolk);
+      margin: 8px auto 0;
+      animation: pulseLine 1.5s ease-in-out infinite;
+    }
+
+    /* SPLIT PANELS */
+    #panel-top, #panel-bottom {
+      position: fixed;
+      left: 0; right: 0;
+      z-index: 990;
+      background: #ffffff;
+      pointer-events: none;
+      transition: transform 0.8s cubic-bezier(0.76, 0, 0.24, 1);
+    }
+    #panel-top {
+      top: 0;
+      height: 52%;
+      clip-path: polygon(0 0, 100% 0, 100% 82%, 93% 88%, 86% 82%, 78% 90%, 70% 83%, 62% 91%, 54% 84%, 46% 92%, 38% 85%, 30% 93%, 22% 86%, 14% 94%, 7% 88%, 0 95%);
+    }
+    #panel-bottom {
+      bottom: 0;
+      height: 52%;
+      clip-path: polygon(0 5%, 7% 12%, 14% 6%, 22% 14%, 30% 7%, 38% 15%, 46% 8%, 54% 16%, 62% 9%, 70% 17%, 78% 10%, 86% 18%, 93% 12%, 100% 18%, 100% 100%, 0 100%);
+    }
+    #panel-top.split { transform: translateY(-110%); }
+    #panel-bottom.split { transform: translateY(110%); }
+
+    /* CRACK LINE */
+    #crack-svg {
+      position: fixed;
+      inset: 0;
+      z-index: 995;
+      pointer-events: none;
+      opacity: 0;
+    }
+
+    /* MAIN PAGE */
+    #main-page { opacity: 0; transition: opacity 0.7s ease; background: var(--cream); min-height: 100vh; }
+    #main-page.visible { opacity: 1; }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 1.5rem 4rem;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .logo {
+      font-family: 'Playfair Display', serif; font-weight: 900; font-size: 1.4rem;
+      letter-spacing: -0.02em; color: var(--dark); text-decoration: none;
+    }
+    .logo span { color: var(--yolk); }
+    nav a.contact-link {
+      font-size: 0.85rem; font-weight: 500; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--mid); text-decoration: none;
+      border-bottom: 1px solid var(--yolk); padding-bottom: 2px; transition: color 0.2s;
+    }
+    nav a.contact-link:hover { color: var(--yolk-deep); }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: grid; grid-template-columns: 1fr 1fr;
+      align-items: center; padding: 8rem 4rem 4rem; gap: 4rem;
+    }
+    .hero-text { opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease 0.2s, transform 0.8s ease 0.2s; }
+    .hero-text.visible { opacity: 1; transform: translateY(0); }
+    .hero-eyebrow {
+      font-size: 0.75rem; font-weight: 500; letter-spacing: 0.15em;
+      text-transform: uppercase; color: var(--yolk-deep); margin-bottom: 1.5rem;
+    }
+    h1 {
+      font-family: 'Playfair Display', serif; font-weight: 900;
+      font-size: clamp(3.5rem, 6vw, 6rem); line-height: 0.95;
+      letter-spacing: -0.03em; color: var(--dark); margin-bottom: 2rem;
+    }
+    h1 em { font-style: italic; color: var(--yolk); }
+    .hero-sub { font-size: 1.15rem; line-height: 1.7; color: var(--mid); max-width: 420px; margin-bottom: 3rem; }
+    .cta-btn {
+      display: inline-block; background: var(--dark); color: var(--cream);
+      padding: 1rem 2.5rem; font-family: 'DM Sans', sans-serif; font-size: 0.9rem;
+      font-weight: 500; letter-spacing: 0.05em; text-decoration: none;
+      border-radius: 100px; transition: background 0.25s, transform 0.2s;
+    }
+    .cta-btn:hover { background: var(--yolk-deep); transform: translateY(-2px); }
+
+    .hero-visual { display: flex; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.8s ease 0.5s; }
+    .hero-visual.visible { opacity: 1; }
+    .hero-egg-wrap { position: relative; width: 300px; animation: heroFloat 6s ease-in-out infinite; }
+    .hero-egg-wrap img { width: 100%; filter: drop-shadow(0 30px 60px rgba(245,166,35,0.35)); display: block; }
+    .orbit-word {
+      position: absolute; font-size: 0.68rem; font-weight: 500; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--mid); opacity: 0.45;
+      animation: orbitFade 3s ease-in-out infinite;
+    }
+    .orbit-word:nth-child(1) { top: -5%; left: 50%; transform: translateX(-50%); animation-delay: 0s; }
+    .orbit-word:nth-child(2) { top: 50%; right: -22%; transform: translateY(-50%); animation-delay: 0.8s; }
+    .orbit-word:nth-child(3) { bottom: -5%; left: 50%; transform: translateX(-50%); animation-delay: 1.6s; }
+    .orbit-word:nth-child(4) { top: 50%; left: -22%; transform: translateY(-50%); animation-delay: 2.4s; }
+
+    /* MARQUEE */
+    .marquee-section {
+      overflow: hidden; background: var(--dark); padding: 1.2rem 0;
+      transform: rotate(-1deg) scaleX(1.05); margin: 2rem -2rem;
+    }
+    .marquee-track { display: flex; gap: 3rem; animation: marquee 22s linear infinite; white-space: nowrap; }
+    .marquee-item { font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.1rem; color: var(--yolk); flex-shrink: 0; }
+    .marquee-dot { color: rgba(253,246,236,0.3); }
+
+    /* STORY */
+    .story { padding: 8rem 4rem; max-width: 1100px; margin: 0 auto; }
+    .story-grid { display: grid; grid-template-columns: 1fr 2fr; gap: 6rem; align-items: start; }
+    .story-label { font-size: 0.75rem; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; color: var(--yolk-deep); position: sticky; top: 8rem; }
+    .story-content h2 { font-family: 'Playfair Display', serif; font-weight: 700; font-size: clamp(2rem,3.5vw,3rem); line-height: 1.15; letter-spacing: -0.02em; margin-bottom: 2rem; }
+    .story-content p { font-size: 1.05rem; line-height: 1.85; color: var(--mid); margin-bottom: 1.5rem; }
+    .story-content p strong { color: var(--dark); font-weight: 500; }
+    .highlight-line {
+      font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.4rem;
+      color: var(--yolk-deep); border-left: 3px solid var(--yolk);
+      padding-left: 1.5rem; margin: 2.5rem 0; line-height: 1.5;
+    }
+
+    /* SERVICES */
+    .services { padding: 6rem 4rem; background: var(--dark); color: var(--cream); }
+    .services-inner { max-width: 1100px; margin: 0 auto; }
+    .services h2 { font-family: 'Playfair Display', serif; font-size: clamp(2rem,3vw,2.5rem); font-weight: 700; margin-bottom: 4rem; }
+    .services h2 span { color: var(--yolk); }
+    .services-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 2rem; }
+    .service-card {
+      border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 2.5rem;
+      transition: border-color 0.3s, transform 0.3s; position: relative; overflow: hidden;
+    }
+    .service-card::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(circle at 50% 0%, rgba(245,166,35,0.08) 0%, transparent 70%);
+      opacity: 0; transition: opacity 0.3s;
+    }
+    .service-card:hover { border-color: var(--yolk); transform: translateY(-4px); }
+    .service-card:hover::before { opacity: 1; }
+    .service-number { font-family: 'Playfair Display', serif; font-size: 3rem; font-weight: 900; color: var(--yolk); opacity: 0.3; line-height: 1; margin-bottom: 1rem; }
+    .service-card h3 { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; margin-bottom: 0.75rem; }
+    .service-card p { font-size: 0.9rem; line-height: 1.7; color: rgba(253,246,236,0.6); }
+
+    /* CONTACT */
+    .contact { padding: 8rem 4rem; text-align: center; max-width: 700px; margin: 0 auto; }
+    .contact h2 { font-family: 'Playfair Display', serif; font-size: clamp(2.5rem,4vw,3.5rem); font-weight: 900; line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 1.5rem; }
+    .contact h2 em { font-style: italic; color: var(--yolk); }
+    .contact p { font-size: 1.05rem; line-height: 1.7; color: var(--mid); margin-bottom: 3rem; }
+    .contact-email { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-style: italic; color: var(--dark); text-decoration: none; border-bottom: 2px solid var(--yolk); padding-bottom: 4px; transition: color 0.2s; }
+    .contact-email:hover { color: var(--yolk-deep); }
+
+    footer { border-top: 1px solid var(--shell); padding: 2rem 4rem; display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; color: var(--mid); opacity: 0.7; }
+
+    /* KEYFRAMES */
+    @keyframes eggAppear { to { opacity: 1; transform: scale(1); } }
+    @keyframes fadeHint { to { opacity: 0.6; } }
+    @keyframes pulseLine { 0%,100% { opacity:0.4; transform:scaleY(1); } 50% { opacity:1; transform:scaleY(1.3); } }
+    @keyframes heroFloat { 0%,100% { transform:translateY(0) rotate(-1deg); } 50% { transform:translateY(-16px) rotate(1deg); } }
+    @keyframes orbitFade { 0%,100% { opacity:0.3; } 50% { opacity:0.7; } }
+    @keyframes marquee { from { transform:translateX(0); } to { transform:translateX(-50%); } }
+    @keyframes eggShake {
+      0%,100% { transform: translateX(0) rotate(0); }
+      20% { transform: translateX(-8px) rotate(-2deg); }
+      40% { transform: translateX(8px) rotate(2deg); }
+      60% { transform: translateX(-5px) rotate(-1deg); }
+      80% { transform: translateX(5px) rotate(1deg); }
+    }
+    @keyframes drawCrack { from { stroke-dashoffset: 1800; } to { stroke-dashoffset: 0; } }
+
+    .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease, transform 0.8s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 768px) {
+      nav { padding: 1.5rem 2rem; }
+      .hero { grid-template-columns: 1fr; padding: 7rem 2rem 4rem; gap: 3rem; }
+      .hero-visual { order: -1; }
+      .hero-egg-wrap { width: 200px; }
+      .story { padding: 5rem 2rem; }
+      .story-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .story-label { position: static; }
+      .services { padding: 4rem 2rem; }
+      .services-grid { grid-template-columns: 1fr; }
+      .contact { padding: 5rem 2rem; }
+      footer { flex-direction: column; gap: 1rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- INTRO -->
+  <div id="intro">
+    <div id="egg-container" onclick="crackEgg()">
+      <img id="egg-img" src="Gemini_Generated_Image_ejok8jejok8jejok.png" alt="NIEUW EI" />
+      <div class="click-hint">Klik om te kraken</div>
+    </div>
+  </div>
+
+  <!-- SPLIT PANELS -->
+  <div id="panel-top"></div>
+  <div id="panel-bottom"></div>
+
+  <!-- CRACK LINE -->
+  <svg id="crack-svg" viewBox="0 0 1440 900" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <polyline id="crack-path"
+      points="720,0 716,70 728,150 712,230 726,310 708,390 722,470 710,550 724,630 714,710 720,900"
+      fill="none" stroke="#F5A623" stroke-width="3"
+      stroke-dasharray="1800" stroke-dashoffset="1800"
+      stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+
+  <!-- MAIN PAGE -->
+  <div id="main-page">
+    <nav>
+      <a href="#" class="logo">NIEUW <span>EI</span></a>
+      <a href="#contact" class="contact-link">Laten we praten</a>
+    </nav>
+
+    <section class="hero">
+      <div class="hero-text">
+        <p class="hero-eyebrow">Strategie · Marketing · Branding</p>
+        <h1>Jouw merk,<br/><em>eindelijk</em><br/>gezien.</h1>
+        <p class="hero-sub">Veel merken gooien maar wat. Wij broeden liever. NIEUW EI helpt je eerst begrijpen wie je bent — dan pas praten we over hoe je dat laat zien.</p>
+        <a href="#contact" class="cta-btn">Kraak het ei open →</a>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-egg-wrap">
+          <span class="orbit-word">Strategie</span>
+          <span class="orbit-word">Identiteit</span>
+          <span class="orbit-word">Branding</span>
+          <span class="orbit-word">Positionering</span>
+          <img src="Gemini_Generated_Image_ejok8jejok8jejok.png" alt="NIEUW EI" />
+        </div>
+      </div>
+    </section>
+
+    <div class="marquee-section">
+      <div class="marquee-track" id="marquee-track">
+        <span class="marquee-item">Positionering</span><span class="marquee-dot"> ✦ </span>
+        <span class="marquee-item">Merkidentiteit</span><span class="marquee-dot"> ✦ </span>
+        <span class="marquee-item">Strategie</span><span class="marquee-dot"> ✦ </span>
+        <span class="marquee-item">Visuele taal</span><span class="marquee-dot"> ✦ </span>
+        <span class="marquee-item">Blueprint</span><span class="marquee-dot"> ✦ </span>
+        <span class="marquee-item">A.EI</span><span class="marquee-dot"> ✦ </span>
+        <span class="marquee-item">Positionering</span><span class="marquee-dot"> ✦ </span>
+        <span class="marquee-item">Merkidentiteit</span><span class="marquee-dot"> ✦ </span>
+        <span class="marquee-item">Strategie</span><span class="marquee-dot"> ✦ </span>
+        <span class="marquee-item">Visuele taal</span><span class="marquee-dot"> ✦ </span>
+        <span class="marquee-item">Blueprint</span><span class="marquee-dot"> ✦ </span>
+        <span class="marquee-item">A.EI</span><span class="marquee-dot"> ✦ </span>
+      </div>
+    </div>
+
+    <section class="story" id="verhaal">
+      <div class="story-grid">
+        <div class="story-label reveal">Het verhaal</div>
+        <div class="story-content reveal">
+          <h2>Iedereen is zichtbaar. Maar wordt jij ook <em>gezien</em>?</h2>
+          <p>Iedereen is zichtbaar tegenwoordig. Iedereen post, maakt content, gebruikt A.EI. En toch vraag je je af waarom niemand echt naar je omkijkt.</p>
+          <p><strong>Het ligt niet aan hoeveel je doet. Het ligt aan wat je zegt — en of dat écht van jou is.</strong></p>
+          <div class="highlight-line">"A.EI is krachtig. Maar als jij niet weet wie je bent, maakt het gewoon sneller meer van hetzelfde."</div>
+          <p>Wij helpen je eerst het belangrijkste snappen: wie ben je, wat maakt jou anders, en hoe wil je gezien worden? Pas als dat helder is, heeft alles wat je daarna doet — met of zonder A.EI — echte waarde.</p>
+          <p>We broeden samen tot er iets uitkomt waar je trots op bent. Een strategie, een identiteit, een blueprint. Iets wat van jou is. Herkenbaar, consistent en onderscheidend.</p>
+          <p><strong>Want merken die weten wie ze zijn vallen op. Niet omdat ze harder schreeuwen. Maar omdat ze iets echts te zeggen hebben.</strong></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="services" id="aanpak">
+      <div class="services-inner">
+        <h2>Wat we <span>samen</span> doen</h2>
+        <div class="services-grid">
+          <div class="service-card reveal">
+            <div class="service-number">01</div>
+            <h3>Strategie & Positionering</h3>
+            <p>We beginnen bij de basis. Wie ben jij, voor wie doe je het, en wat maakt jou anders? Zonder dit fundament bouw je op drijfzand.</p>
+          </div>
+          <div class="service-card reveal">
+            <div class="service-number">02</div>
+            <h3>Branding & Identiteit</h3>
+            <p>Van merkpersoonlijkheid tot visuele taal. We bouwen een identiteit die consistent is, herkenbaar, en authentiek van jou.</p>
+          </div>
+          <div class="service-card reveal">
+            <div class="service-number">03</div>
+            <h3>Blueprint & Richting</h3>
+            <p>Je vertrekt met een concreet plan. Geen map met alleen mooie plekjes — maar een route die je écht kunt volgen.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact" id="contact">
+      <h2 class="reveal">Klaar om uit je <em>doppen</em> te kijken?</h2>
+      <p class="reveal">Geen vrijblijvend salespraatje. Gewoon een eerlijk gesprek over waar jij staat en waar je naartoe wilt.</p>
+      <a href="mailto:hallo@nieuwei.nl" class="contact-email reveal">hallo@nieuwei.nl</a>
+    </section>
+
+    <footer>
+      <span>© 2025 NIEUW EI</span>
+      <span>Strategie · Marketing · Branding</span>
+    </footer>
+  </div>
+
+  <script>
+    // Marquee duplicate
+    const track = document.getElementById('marquee-track');
+    track.innerHTML += track.innerHTML;
+
+    // Scroll reveal
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((e, i) => {
+        if (e.isIntersecting) setTimeout(() => e.target.classList.add('visible'), i * 100);
+      });
+    }, { threshold: 0.15 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    let cracked = false;
+
+    function crackEgg() {
+      if (cracked) return;
+      cracked = true;
+
+      const intro      = document.getElementById('intro');
+      const eggCont    = document.getElementById('egg-container');
+      const panelTop   = document.getElementById('panel-top');
+      const panelBot   = document.getElementById('panel-bottom');
+      const crackSvg   = document.getElementById('crack-svg');
+      const crackPath  = document.getElementById('crack-path');
+      const mainPage   = document.getElementById('main-page');
+
+      // 1. Shake
+      eggCont.style.animation = 'eggShake 0.45s ease';
+
+      // 2. Draw crack line
+      setTimeout(() => {
+        crackSvg.style.opacity = '1';
+        crackPath.style.animation = 'drawCrack 0.5s ease forwards';
+      }, 300);
+
+      // 3. Flash + split panels
+      setTimeout(() => {
+        // Quick white flash
+        document.body.style.transition = 'background 0.05s';
+        document.body.style.background = '#ffffff';
+
+        panelTop.classList.add('split');
+        panelBot.classList.add('split');
+        intro.style.transition = 'opacity 0.3s ease';
+        intro.style.opacity = '0';
+      }, 850);
+
+      // 4. Reveal main page
+      setTimeout(() => {
+        mainPage.classList.add('visible');
+        document.querySelector('.hero-text').classList.add('visible');
+        document.querySelector('.hero-visual').classList.add('visible');
+        document.body.style.background = '';
+      }, 1100);
+
+      // 5. Clean up
+      setTimeout(() => {
+        intro.style.display = 'none';
+        crackSvg.style.display = 'none';
+        panelTop.style.display = 'none';
+        panelBot.style.display = 'none';
+      }, 1900);
+    }
+  </script>
+</body>
+</html>
