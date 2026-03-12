@@ -277,6 +277,9 @@
     <span class="skip-hint" onclick="revealPage()">Overslaan ↓</span>
   </div>
 
+  <!-- KNAL GELUID -->
+  <audio id="knal-sound" src="DSGNBoom-Cartoon-style_exagge-Elevenlabs.mp3" preload="auto"></audio>
+
   <!-- MAIN PAGE -->
   <div id="main-page" >
 
@@ -430,6 +433,7 @@
           // Explode!
           egg.style.transform = 'scale(0) rotate(20deg)';
           egg.style.transition = 'transform 0.3s ease-in';
+          document.getElementById('knal-sound').play();
           spawnParticles(cx, cy);
           // Scroll after explosion
           setTimeout(() => {
