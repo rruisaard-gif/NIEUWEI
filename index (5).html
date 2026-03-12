@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NIEUW EI — Strategie, Marketing & Branding</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --orange: #F5A623;
+      --orange-deep: #E8890A;
+      --white: #ffffff;
+      --off-white: #F7F7F7;
+      --dark: #111111;
+      --mid: #666666;
+      --light: #E5E5E5;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--white);
+      color: var(--dark);
+      font-family: 'Outfit', sans-serif;
+      font-weight: 300;
+      overflow-x: hidden;
+    }
+
+    /* ── INTRO VIDEO ── */
+    #intro {
+      position: fixed; inset: 0; z-index: 1000;
+      background: #000;
+      transition: opacity 1s ease;
+    }
+    #intro-video { width: 100%; height: 100%; object-fit: cover; display: block; }
+    #intro.fade-out { opacity: 0; pointer-events: none; }
+    #intro.done { display: none; }
+
+    .skip-hint {
+      position: absolute; bottom: 2rem; right: 2.5rem;
+      font-size: 0.72rem; font-weight: 500; letter-spacing: 0.14em;
+      text-transform: uppercase; color: rgba(255,255,255,0.55);
+      cursor: pointer; opacity: 0;
+      animation: fadeIn 0.6s ease 2s forwards;
+    }
+    .skip-hint:hover { color: var(--orange); }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 1.6rem 4rem;
+      display: flex; justify-content: space-between; align-items: center;
+      background: rgba(255,255,255,0.94);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(0,0,0,0.07);
+    }
+    .logo {
+      font-family: 'Outfit', sans-serif; font-weight: 900;
+      font-size: 1.3rem; letter-spacing: 0.03em;
+      color: var(--dark); text-decoration: none;
+    }
+    .logo span { color: var(--orange); }
+    nav a.contact-link {
+      font-size: 0.8rem; font-weight: 500; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--dark); text-decoration: none;
+      border-bottom: 1.5px solid var(--orange); padding-bottom: 2px;
+      transition: color 0.2s;
+    }
+    nav a.contact-link:hover { color: var(--orange); }
+
+    /* ── HERO — clean 2-column grid ── */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding: 7rem 4rem 4rem;
+      gap: 2rem;
+      background: var(--white);
+    }
+
+    .hero-text { }
+
+    .hero-eyebrow {
+      font-size: 0.72rem; font-weight: 500; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--orange);
+      margin-bottom: 1.5rem; display: block;
+    }
+
+    h1 {
+      font-family: 'Outfit', sans-serif; font-weight: 900;
+      font-size: clamp(3.5rem, 6vw, 6.5rem);
+      line-height: 0.92; letter-spacing: -0.04em; text-transform: uppercase;
+      color: var(--dark); margin-bottom: 2rem;
+    }
+    h1 em { font-style: normal; color: var(--orange); }
+
+    .hero-sub {
+      font-size: 1.1rem; line-height: 1.75;
+      color: var(--mid); margin-bottom: 2.5rem; max-width: 420px;
+    }
+
+    .cta-btn {
+      display: inline-block; background: var(--dark); color: #fff;
+      padding: 0.95rem 2.4rem; font-size: 0.88rem; font-weight: 500;
+      letter-spacing: 0.06em; text-decoration: none;
+      border-radius: 100px; transition: background 0.25s, transform 0.2s;
+    }
+    .cta-btn:hover { background: var(--orange); transform: translateY(-2px); }
+
+    /* Egg image — right column, full height of hero */
+    .hero-image {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+    }
+
+    .hero-image img {
+      width: 100%;
+      max-width: 520px;
+      height: auto;
+      display: block;
+      filter: drop-shadow(0 40px 80px rgba(245,166,35,0.3));
+      animation: heroFloat 7s ease-in-out infinite;
+    }
+
+    /* ── MARQUEE ── */
+    .marquee-section {
+      overflow: hidden; background: var(--dark); padding: 1.1rem 0;
+    }
+    .marquee-track {
+      display: flex; gap: 3rem;
+      animation: marquee 22s linear infinite; white-space: nowrap;
+    }
+    .marquee-item {
+      font-family: 'Outfit', sans-serif; font-style: italic;
+      font-size: 1rem; color: var(--orange); flex-shrink: 0;
+    }
+    .marquee-dot { color: rgba(255,255,255,0.2); }
+
+    /* ── STORY ── */
+    .story { padding: 9rem 4rem; max-width: 1100px; margin: 0 auto; }
+    .story-grid { display: grid; grid-template-columns: 1fr 2fr; gap: 7rem; align-items: start; }
+    .story-label {
+      font-size: 0.72rem; font-weight: 500; letter-spacing: 0.16em;
+      text-transform: uppercase; color: var(--orange);
+      position: sticky; top: 8rem;
+    }
+    .story-content h2 {
+      font-family: 'Outfit', sans-serif; font-weight: 700;
+      font-size: clamp(2rem, 3.2vw, 2.8rem); line-height: 1.15;
+      letter-spacing: -0.02em; margin-bottom: 2rem; color: var(--dark);
+    }
+    .story-content h2 em { font-style: normal; color: var(--orange); }
+    .story-content p {
+      font-size: 1.05rem; line-height: 1.9; color: var(--mid); margin-bottom: 1.5rem;
+    }
+    .story-content p strong { color: var(--dark); font-weight: 500; }
+    .highlight-line {
+      font-family: 'Outfit', sans-serif; font-style: italic;
+      font-size: 1.35rem; color: var(--dark);
+      border-left: 3px solid var(--orange);
+      padding-left: 1.5rem; margin: 2.5rem 0; line-height: 1.55;
+    }
+
+    /* ── SERVICES ── */
+    .services {
+      padding: 6rem 4rem;
+      background: var(--off-white);
+      border-top: 1px solid var(--light);
+      border-bottom: 1px solid var(--light);
+    }
+    .services-inner { max-width: 1100px; margin: 0 auto; }
+    .services h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(2rem, 3vw, 2.5rem); font-weight: 700;
+      color: var(--dark); margin-bottom: 4rem;
+    }
+    .services h2 span { color: var(--orange); }
+    .services-grid {
+      display: grid; grid-template-columns: repeat(3,1fr);
+      border: 1px solid var(--light);
+    }
+    .service-card {
+      background: var(--white); padding: 3rem 2.5rem;
+      border-right: 1px solid var(--light);
+      transition: background 0.3s, transform 0.2s;
+    }
+    .service-card:last-child { border-right: none; }
+    .service-card:hover { background: var(--orange); }
+    .service-card:hover .service-number,
+    .service-card:hover h3,
+    .service-card:hover p { color: #fff; }
+    .service-number {
+      font-family: 'Outfit', sans-serif; font-size: 2.5rem;
+      font-weight: 900; color: var(--light); line-height: 1;
+      margin-bottom: 1.5rem; transition: color 0.3s;
+    }
+    .service-card h3 {
+      font-family: 'Outfit', sans-serif; font-size: 1.2rem;
+      font-weight: 700; margin-bottom: 0.75rem; color: var(--dark);
+      transition: color 0.3s;
+    }
+    .service-card p {
+      font-size: 0.9rem; line-height: 1.7; color: var(--mid); transition: color 0.3s;
+    }
+
+    /* ── CONTACT ── */
+    .contact {
+      padding: 9rem 4rem; text-align: center;
+      max-width: 700px; margin: 0 auto;
+    }
+    .contact h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(2.5rem, 4vw, 3.5rem); font-weight: 900;
+      line-height: 1.1; letter-spacing: -0.02em;
+      margin-bottom: 1.5rem; color: var(--dark);
+    }
+    .contact h2 em { font-style: normal; color: var(--orange); }
+    .contact p { font-size: 1.05rem; line-height: 1.7; color: var(--mid); margin-bottom: 3rem; }
+    .contact-email {
+      font-family: 'Outfit', sans-serif; font-size: 1.5rem;
+      font-style: italic; color: var(--dark); text-decoration: none;
+      border-bottom: 2px solid var(--orange); padding-bottom: 4px;
+      transition: color 0.2s;
+    }
+    .contact-email:hover { color: var(--orange); }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--light); padding: 2rem 4rem;
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 0.78rem; color: var(--mid);
+    }
+
+    /* ── KEYFRAMES ── */
+    @keyframes fadeIn { to { opacity: 1; } }
+    @keyframes heroFloat {
+      0%,100% { transform: translateY(0) rotate(-1deg); }
+      50% { transform: translateY(-18px) rotate(1deg); }
+    }
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+    /* ── SCROLL REVEAL ── */
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.8s ease, transform 0.8s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav { padding: 1.5rem 2rem; }
+      .hero { grid-template-columns: 1fr; padding: 7rem 2rem 4rem; }
+      .hero-image { order: -1; }
+      .hero-image img { max-width: 260px; }
+      .story { padding: 5rem 2rem; }
+      .story-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .story-label { position: static; }
+      .services { padding: 4rem 2rem; }
+      .services-grid { grid-template-columns: 1fr; }
+      .service-card { border-right: none; border-bottom: 1px solid var(--light); }
+      .contact { padding: 5rem 2rem; }
+      footer { flex-direction: column; gap: 1rem; text-align: center; padding: 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- INTRO VIDEO -->
+  <div id="intro">
+    <video id="intro-video" autoplay muted playsinline>
+      <source src="Video_van_openbrekend_ei.mp4" type="video/mp4" />
+    </video>
+    <span class="skip-hint" onclick="revealPage()">Overslaan ↓</span>
+  </div>
+
+  <!-- MAIN PAGE -->
+  <div id="main-page" style="visibility:hidden;">
+
+    <nav>
+      <a href="#" class="logo">NIEUW <span>EI</span></a>
+      <a href="#contact" class="contact-link">Laten we praten</a>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-text">
+        <span class="hero-eyebrow">Strategie · Marketing · Branding</span>
+        <h1>Jouw merk,<br/><em>eindelijk</em><br/>gezien.</h1>
+        <p class="hero-sub">Veel merken gooien maar wat. Wij broeden liever. NIEUW EI helpt je eerst begrijpen wie je bent — dan pas praten we over hoe je dat laat zien.</p>
+        <a href="#contact" class="cta-btn">Kraak het ei open →</a>
+      </div>
+      <div class="hero-image">
+        <img src="nieuwei.png" alt="NIEUW EI" />
+      </div>
+    </section>
+
+    <!-- MARQUEE -->
+    <div class="marquee-section">
+      <div class="marquee-track" id="marquee-track">
+        <span class="marquee-item">Positionering</span><span class="marquee-dot"> ✦ </span>
+        <span class="marquee-item">Merkidentiteit</span><span class="marquee-dot"> ✦ </span>
+        <span class="marquee-item">Strategie</span><span class="marquee-dot"> ✦ </span>
+        <span class="marquee-item">Visuele taal</span><span class="marquee-dot"> ✦ </span>
+        <span class="marquee-item">Blueprint</span><span class="marquee-dot"> ✦ </span>
+        <span class="marquee-item">A.EI</span><span class="marquee-dot"> ✦ </span>
+        <span class="marquee-item">Positionering</span><span class="marquee-dot"> ✦ </span>
+        <span class="marquee-item">Merkidentiteit</span><span class="marquee-dot"> ✦ </span>
+        <span class="marquee-item">Strategie</span><span class="marquee-dot"> ✦ </span>
+        <span class="marquee-item">Visuele taal</span><span class="marquee-dot"> ✦ </span>
+        <span class="marquee-item">Blueprint</span><span class="marquee-dot"> ✦ </span>
+        <span class="marquee-item">A.EI</span><span class="marquee-dot"> ✦ </span>
+      </div>
+    </div>
+
+    <!-- STORY -->
+    <section class="story" id="verhaal">
+      <div class="story-grid">
+        <div class="story-label reveal">Het verhaal</div>
+        <div class="story-content reveal">
+          <h2>Iedereen is zichtbaar. Maar wordt jij ook <em>gezien</em>?</h2>
+          <p>Iedereen is zichtbaar tegenwoordig. Iedereen post, maakt content, gebruikt A.EI. En toch vraag je je af waarom niemand echt naar je omkijkt.</p>
+          <p><strong>Het ligt niet aan hoeveel je doet. Het ligt aan wat je zegt — en of dat écht van jou is.</strong></p>
+          <div class="highlight-line">"A.EI is krachtig. Maar als jij niet weet wie je bent, maakt het gewoon sneller meer van hetzelfde."</div>
+          <p>Wij helpen je eerst het belangrijkste snappen: wie ben je, wat maakt jou anders, en hoe wil je gezien worden? Pas als dat helder is, heeft alles wat je daarna doet — met of zonder A.EI — echte waarde.</p>
+          <p>We broeden samen tot er iets uitkomt waar je trots op bent. Een strategie, een identiteit, een blueprint. Iets wat van jou is. Herkenbaar, consistent en onderscheidend.</p>
+          <p><strong>Want merken die weten wie ze zijn vallen op. Niet omdat ze harder schreeuwen. Maar omdat ze iets echts te zeggen hebben.</strong></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section class="services" id="aanpak">
+      <div class="services-inner">
+        <h2>Wat we <span>samen</span> doen</h2>
+        <div class="services-grid">
+          <div class="service-card reveal">
+            <div class="service-number">01</div>
+            <h3>Strategie & Positionering</h3>
+            <p>We beginnen bij de basis. Wie ben jij, voor wie doe je het, en wat maakt jou anders? Zonder dit fundament bouw je op drijfzand.</p>
+          </div>
+          <div class="service-card reveal">
+            <div class="service-number">02</div>
+            <h3>Branding & Identiteit</h3>
+            <p>Van merkpersoonlijkheid tot visuele taal. We bouwen een identiteit die consistent is, herkenbaar, en authentiek van jou.</p>
+          </div>
+          <div class="service-card reveal">
+            <div class="service-number">03</div>
+            <h3>Blueprint & Richting</h3>
+            <p>Je vertrekt met een concreet plan. Geen map met alleen mooie plekjes — maar een route die je écht kunt volgen.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="contact" id="contact">
+      <h2 class="reveal">Klaar om uit je <em>doppen</em> te kijken?</h2>
+      <p class="reveal">Geen vrijblijvend salespraatje. Gewoon een eerlijk gesprek over waar jij staat en waar je naartoe wilt.</p>
+      <a href="/cdn-cgi/l/email-protection#f49c9598989bb49a9d918183919dda9a98" class="contact-email reveal"><span class="__cf_email__" data-cfemail="9df5fcf1f1f2ddf3f4f8e8eaf8f4b3f3f1">[email&#160;protected]</span></a>
+    </section>
+
+    <footer>
+      <span>© 2025 NIEUW EI</span>
+      <span>Strategie · Marketing · Branding</span>
+    </footer>
+
+  </div>
+
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+    // Marquee duplicate
+    const track = document.getElementById('marquee-track');
+    track.innerHTML += track.innerHTML;
+
+    // Scroll reveal
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((e, i) => {
+        if (e.isIntersecting) setTimeout(() => e.target.classList.add('visible'), i * 120);
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+    // Video → reveal
+    const video = document.getElementById('intro-video');
+    video.addEventListener('ended', revealPage);
+    video.addEventListener('error', revealPage);
+
+    function revealPage() {
+      const intro    = document.getElementById('intro');
+      const mainPage = document.getElementById('main-page');
+
+      intro.classList.add('fade-out');
+
+      setTimeout(() => {
+        mainPage.style.visibility = 'visible';
+        mainPage.style.opacity = '0';
+        mainPage.style.transition = 'opacity 0.8s ease';
+ 
