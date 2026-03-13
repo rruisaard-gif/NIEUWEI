@@ -260,8 +260,9 @@
       .cta-btn { order: 3; display: block; text-align: center; }
       .story { padding: 5rem 2rem; }
       .story-grid { grid-template-columns: 1fr; gap: 2rem; }
-      .story-image { display: none; }
-      .story-label { position: static; }
+      .story-image { order: 2; }
+      .story-image img { max-width: 160px; margin: 0 auto; }
+      .story-content { order: 1; }
       .services { padding: 4rem 2rem; }
       .services-grid { grid-template-columns: 1fr; }
       .service-card { border-right: none; border-bottom: 1px solid var(--light); }
@@ -328,11 +329,11 @@
 
     <!-- STORY -->
     <section class="story" id="verhaal">
+      <div class="story-label reveal">Het verhaal</div>
       <div class="story-grid">
         <div class="story-image reveal">
           <img src="gebarsten_ei.png" alt="Gebarsten ei" />
         </div>
-        <div class="story-label reveal">Het verhaal</div>
         <div class="story-content reveal">
           <h2>Iedereen is zichtbaar. Maar wordt jij ook <em>gezien</em>?</h2>
           <p>Iedereen is zichtbaar tegenwoordig. Iedereen post, maakt content, gebruikt AI. En toch vraag je je af waarom niemand echt naar je omkijkt.</p>
