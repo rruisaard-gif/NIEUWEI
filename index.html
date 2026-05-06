@@ -252,7 +252,14 @@
 
   <!-- INTRO VIDEO -->
   <div id="intro">
-    <video id="intro-video" autoplay muted playsinline>
+    <video
+      id="intro-video"
+      autoplay
+      muted
+      playsinline
+      poster="nieuwei.png"
+      aria-label="Introductievideo: een ei dat openbreekt, als metafoor voor een nieuw begin"
+    >
       <source src="Video_van_openbrekend_ei.mp4" type="video/mp4" />
     </video>
     <span class="skip-hint" onclick="revealPage()">Overslaan ↓</span>
@@ -267,7 +274,7 @@
     <!-- NAV -->
     <nav>
       <a href="#" class="logo">
-        <svg width="30" height="39" viewBox="75 55 265 335" xmlns="http://www.w3.org/2000/svg" style="display:block;flex-shrink:0" aria-hidden="true">
+        <svg width="30" height="39" viewBox="75 55 265 335" xmlns="http://www.w3.org/2000/svg" style="display:block;flex-shrink:0" aria-label="NIEUW EI logo: een oranje ei met een oog">
           <g transform="translate(40,40) scale(3.0)">
             <path d="M52,10 C72,8 88,18 94,35 C100,52 98,74 90,90 C82,106 68,114 52,112 C36,110 22,100 16,84 C8,64 12,40 24,26 C34,14 42,10 52,10Z" fill="#FCA311"/>
             <ellipse cx="68" cy="55" rx="18" ry="11" fill="white"/>
@@ -289,7 +296,13 @@
         <a href="#verhaal" class="cta-btn" onclick="explodeEgg(event)">Vertel me meer</a>
       </div>
       <div class="hero-image">
-        <img id="hero-egg" src="nieuwei.png" alt="NIEUW EI" />
+        <img
+          id="hero-egg"
+          src="nieuwei.png"
+          alt="Het NIEUW EI mascotte: een oranje ei met één levendig oog, symbool voor een frisse start"
+          width="480"
+          height="480"
+        />
       </div>
     </section>
 
@@ -297,7 +310,12 @@
     <section class="story" id="verhaal">
       <div class="story-grid">
         <div class="story-image reveal">
-          <img src="gebarsten_ei.png" alt="Gebarsten ei" />
+          <img
+            src="gebarsten_ei.png"
+            alt="Een gebarsten ei: de schil gaat open, iets nieuws komt tevoorschijn"
+            width="480"
+            height="480"
+          />
         </div>
         <div></div>
         <div class="story-text-col">
@@ -364,20 +382,36 @@
 
     // Intro video
     const introVideo = document.getElementById('intro-video');
+    let pageRevealed = false;
 
     function revealPage() {
+      if (pageRevealed) return;
+      pageRevealed = true;
       const intro = document.getElementById('intro');
       intro.style.transition = 'opacity 0.4s ease';
       intro.style.opacity = '0';
       setTimeout(() => intro.classList.add('done'), 450);
     }
 
+    // Reveal wanneer video klaar is
     introVideo.addEventListener('ended', revealPage);
+
+    // Reveal bij elke fout (bestand niet gevonden, codec, netwerk)
     introVideo.addEventListener('error', revealPage);
 
+    // Fallback: als de video na 1,5 seconden nog niet is begonnen met afspelen, ga door
+    introVideo.addEventListener('canplay', () => {
+      // Video kan afspelen, zet een maximale wachttijd op de duur van de video
+      const maxWait = (introVideo.duration || 8) * 1000 + 500;
+      setTimeout(revealPage, maxWait);
+    });
+
+    // Harde fallback: als na 1,5 seconden de video nog niet is geladen of begonnen
     setTimeout(() => {
-      if (introVideo.paused && introVideo.currentTime === 0) revealPage();
-    }, 3000);
+      if (introVideo.readyState === 0 || introVideo.paused && introVideo.currentTime === 0) {
+        revealPage();
+      }
+    }, 1500);
 
     // Egg explosion
     function explodeEgg(e) {
