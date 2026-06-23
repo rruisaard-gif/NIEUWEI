@@ -96,10 +96,9 @@
       display: flex; align-items: center; justify-content: center;
     }
     .hero-image img {
-  width: 100%; max-width: 480px; height: auto; display: block;
-  animation: heroFloat 7s ease-in-out infinite;
-  transform: scale(1.5);
-}
+      width: 100%; max-width: 480px; height: auto; display: block;
+      animation: heroFloat 7s ease-in-out infinite;
+    }
 
     /* ── STORY ── */
     .story { padding: 9rem 4rem; max-width: 1400px; margin: 0 auto; }
@@ -231,6 +230,9 @@
 </head>
 <body>
 
+  <!-- KNAL GELUID -->
+  <audio id="knal-sound" src="DSGNBoom-Cartoon-style_exagge-Elevenlabs.mp3" preload="auto"></audio>
+
   <!-- NAV -->
   <nav>
     <a href="#" class="logo">
@@ -357,6 +359,8 @@
           clearInterval(shakeInterval);
           egg.style.transform = 'scale(0) rotate(20deg)';
           egg.style.transition = 'transform 0.3s ease-in';
+          const sound = document.getElementById('knal-sound');
+          if (sound) sound.play().catch(() => {});
           spawnParticles(cx, cy);
           setTimeout(() => {
             document.getElementById('verhaal').scrollIntoView({ behavior: 'smooth' });
